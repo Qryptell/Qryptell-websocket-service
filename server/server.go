@@ -1,12 +1,13 @@
 package server
 
 import (
-	"fmt"
 	"os"
 
+	"github.com/LunarLoom/WebSocketService/pkg/client"
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 // Starting server
@@ -19,8 +20,9 @@ func Run(port string) {
 	// Check if user is logged in using jwt
 	app.Use("/", jwtware.New(jwtware.Config{
 		SigningKey: jwtware.SigningKey{
-			JWTAlg: jwtware.RS256,
+			JWTAlg: jwtware.HS256,
 			Key:    []byte(authSecret)},
+		TokenLookup: "query:Authentication",
 	}))
 
 	// Checking if websocket upgrade possible
@@ -33,7 +35,15 @@ func Run(port string) {
 
 	// Handling websocket connections
 	app.Get("/ws", websocket.New(func(c *websocket.Conn) {
-		fmt.Println("New connection")
+		// Getting sessionId,username from jwt token
+		var user = c.Locals("user").(*jwt.Token)
+		var claims = user.Claims.(jwt.MapClaims)
+		var username = claims["userName"].(string)
+		var sessionId = claims["sessionId"].(string)
+
+		var cli = client.NewClient(sessionId, username, c)
+		go cli.ListenMsg()
+		<-cli.UnRegister
 	}))
 
 	app.Listen(":" + port)
