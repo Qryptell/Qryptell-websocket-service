@@ -3,7 +3,7 @@ package client
 import (
 	"fmt"
 
-	"github.com/LunarLoom/WebSocketService/pkg/message"
+	"github.com/LoomingLunar/LunarLoom-WebSocketService/pkg/message"
 	"github.com/gofiber/contrib/websocket"
 )
 

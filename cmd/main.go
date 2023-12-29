@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/LunarLoom/WebSocketService/server"
+	"github.com/LoomingLunar/LunarLoom-WebSocketService/server"
 	"github.com/joho/godotenv"
 )
 

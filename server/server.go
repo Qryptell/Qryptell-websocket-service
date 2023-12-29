@@ -3,7 +3,7 @@ package server
 import (
 	"os"
 
-	"github.com/LunarLoom/WebSocketService/pkg/client"
+	"github.com/LoomingLunar/LunarLoom-WebSocketService/pkg/client"
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
