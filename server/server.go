@@ -41,9 +41,13 @@ func Run(port string) {
 		var username = claims["userName"].(string)
 		var sessionId = claims["sessionId"].(string)
 
+		// Creating new client and reading and writing messages
 		var cli = client.NewClient(sessionId, username, c)
 		go cli.ListenMsg()
-		<-cli.UnRegister
+		cli.WriteMsg()
+
+		// Disconnecting connection
+		cli.RemoveClient()
 	}))
 
 	app.Listen(":" + port)

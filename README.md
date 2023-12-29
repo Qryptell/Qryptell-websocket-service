@@ -16,7 +16,19 @@ The LunarLoom WebSocket Service provides real-time messaging capabilities to ena
 - Go
 - Fiber
 - WebSocket
-- 
+
+## Getting Started
+
+Clone this repository and create `.env` file to store necessary enviornment variables.
+eg:
+
+```
+PORT=9000
+AUTH_SECRET=secret
+```
+
+now run `make run` to start the server.
+ 
 ## Contributing
 Contributions are welcome! To contribute to this project:
 1. Fork the project
@@ -61,6 +73,6 @@ Contributions are welcome! To contribute to this project:
 
 10. Create new Pull Request
 
-# LICENSE
+## LICENSE
 
 [MIT LICENSE](LICENSE)

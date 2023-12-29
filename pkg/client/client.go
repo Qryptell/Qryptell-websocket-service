@@ -2,6 +2,7 @@ package client
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/LoomingLunar/LunarLoom-WebSocketService/pkg/message"
 	"github.com/gofiber/contrib/websocket"
@@ -40,7 +41,6 @@ func NewClient(sessionId string, userName string, conn *websocket.Conn) *Client 
 func (c *Client) ListenMsg() {
 	// Disconnecting client
 	defer func() {
-		c.RemoveClient()
 		c.UnRegister <- true
 	}()
 
@@ -53,6 +53,10 @@ func (c *Client) ListenMsg() {
 			return
 		}
 
+		// Adding from,time details to the message
+		msg.Message["from"] = c.Username
+		msg.Message["time"] = time.Now().Format(time.RFC3339)
+
 		// Handling message accoding to message type
 		if msg.Type == message.USER_MSG {
 			fmt.Println(msg)
@@ -60,6 +64,27 @@ func (c *Client) ListenMsg() {
 			fmt.Println(msg)
 		} else if msg.Type == message.SYSTEM_MSG {
 			fmt.Println(msg)
+		}
+	}
+}
+
+// Sending message to client
+func (c *Client) WriteMsg() {
+	// Getting msg from channel and making response
+	for {
+		select {
+		case msg := <-c.MessageChan:
+			var err = c.Conn.WriteJSON(msg)
+			if err != nil {
+				return
+			}
+		case ack := <-c.AckChan:
+			var err = c.Conn.WriteJSON(ack)
+			if err != nil {
+				return
+			}
+		case _ = <-c.UnRegister:
+			return
 		}
 	}
 }
