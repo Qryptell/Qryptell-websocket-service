@@ -1,8 +1,4 @@
-package message
-
-import (
-	"time"
-)
+package message 
 
 type MessageType string
 type AckStatus string
@@ -25,20 +21,4 @@ const (
 type Msg struct {
 	Type    MessageType    `json:"type"`
 	Message map[string]any `json:"message"`
-}
-
-// User Message
-type UserMsg struct {
-	Id   string    `json:"messageId,omitempty"`
-	From string    `json:"from"`
-	Msg  string    `json:"msg"`
-	Time time.Time `json:"time"`
-}
-
-// Ack message send from client
-type AckMessage struct {
-	Id     string    `json:"messageId,omitempty"`
-	From   string    `json:"from"`
-	Status AckStatus `json:"status"`
-	Time   time.Time `json:"Time"`
 }

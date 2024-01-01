@@ -1,4 +1,4 @@
-package client
+package ws
 
 import (
 	"fmt"
@@ -16,8 +16,7 @@ type Client struct {
 	Conn        *websocket.Conn
 	SessionId   string
 	Username    string
-	MessageChan chan (message.UserMsg)
-	AckChan     chan (message.AckMessage)
+	MessageChan chan (message.Msg)
 	UnRegister  chan (bool)
 }
 
@@ -27,8 +26,7 @@ func NewClient(sessionId string, userName string, conn *websocket.Conn) *Client 
 		Conn:        conn,
 		SessionId:   sessionId,
 		Username:    userName,
-		MessageChan: make(chan message.UserMsg),
-		AckChan:     make(chan message.AckMessage),
+		MessageChan: make(chan message.Msg),
 		UnRegister:  make(chan bool),
 	}
 
@@ -53,9 +51,11 @@ func (c *Client) ListenMsg() {
 			return
 		}
 
-		// Adding from,time details to the message
-		msg.Message["from"] = c.Username
-		msg.Message["time"] = time.Now().Format(time.RFC3339)
+		// Adding from,time details to the message if message is ack or user msg
+		if msg.Type == message.USER_MSG || msg.Type == message.ACK_MSG {
+			msg.Message["from"] = c.Username
+			msg.Message["time"] = time.Now().Format(time.RFC3339)
+		}
 
 		// Handling message accoding to message type
 		if msg.Type == message.USER_MSG {
@@ -70,16 +70,11 @@ func (c *Client) ListenMsg() {
 
 // Sending message to client
 func (c *Client) WriteMsg() {
-	// Getting msg from channel and making response
+	// Getting msg from channel and sending to client response
 	for {
 		select {
 		case msg := <-c.MessageChan:
 			var err = c.Conn.WriteJSON(msg)
-			if err != nil {
-				return
-			}
-		case ack := <-c.AckChan:
-			var err = c.Conn.WriteJSON(ack)
 			if err != nil {
 				return
 			}
