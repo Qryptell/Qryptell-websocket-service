@@ -5,7 +5,9 @@ import (
 	"time"
 
 	"github.com/LoomingLunar/LunarLoom-WebSocketService/pkg/message"
+	"github.com/LoomingLunar/LunarLoom-WebSocketService/pkg/redis"
 	"github.com/gofiber/contrib/websocket"
+	"github.com/google/uuid"
 )
 
 // List of all the Clients
@@ -13,24 +15,24 @@ var Clients map[string]*Client = map[string]*Client{}
 
 // Client structure
 type Client struct {
-	Conn        *websocket.Conn
-	SessionId   string
-	Username    string
-	MessageChan chan (message.Msg)
-	UnRegister  chan (bool)
+	Conn         *websocket.Conn
+	ConnectionId string
+	Username     string
+	MessageChan  chan (message.Msg)
+	UnRegister   chan (bool)
 }
 
 // Creating new client
-func NewClient(sessionId string, userName string, conn *websocket.Conn) *Client {
+func NewClient(userName string, conn *websocket.Conn) *Client {
 	var client = &Client{
-		Conn:        conn,
-		SessionId:   sessionId,
-		Username:    userName,
-		MessageChan: make(chan message.Msg),
-		UnRegister:  make(chan bool),
+		Conn:         conn,
+		ConnectionId: uuid.NewString(),
+		Username:     userName,
+		MessageChan:  make(chan message.Msg),
+		UnRegister:   make(chan bool),
 	}
 
-	Clients[sessionId] = client
+	Clients[client.ConnectionId] = client
 
 	return client
 }
@@ -60,6 +62,10 @@ func (c *Client) ListenMsg() {
 		// Handling message accoding to message type
 		if msg.Type == message.USER_MSG {
 			fmt.Println(msg)
+			var err = redis.PublishUserMsg(msg)
+			if err != nil {
+				fmt.Println(err)
+			}
 		} else if msg.Type == message.ACK_MSG {
 			fmt.Println(msg)
 		} else if msg.Type == message.SYSTEM_MSG {
@@ -87,5 +93,5 @@ func (c *Client) WriteMsg() {
 // Closing connection and removing user from client list
 func (c *Client) RemoveClient() {
 	c.Conn.Close()
-	delete(Clients, c.SessionId)
+	delete(Clients, c.ConnectionId)
 }
