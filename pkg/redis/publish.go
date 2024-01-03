@@ -8,13 +8,13 @@ import (
 )
 
 // Publishing user message to channel
-func PublishUserMsg(msg message.Msg) error {
+func PublishMsg(msg message.Msg,channel channel) error {
 	// Encoding message and getting as byte string
 	var data, err = util.ToByteString(msg)
 	if err != nil {
 		return err
 	}
 	// Publishing message
-	err = Redis.Publish(context.TODO(), string(USER_CHANNEL), data).Err()
+	err = Redis.Publish(context.TODO(), string(channel), data).Err()
 	return err
 }

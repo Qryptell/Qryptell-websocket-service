@@ -15,6 +15,7 @@ type channel string
 // Channel names
 const USER_CHANNEL channel = "USER_MESSAGE"
 const ACK_CHANNEL channel = "ACK_MESSAGE"
+const SYSTEM_CHANNEL channel = "SYSTEM_MESSAGE"
 
 // Connecting and start redis pub-sub
 func Start() {
