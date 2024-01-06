@@ -1,30 +1,22 @@
 package redis
 
 import (
-	"os"
-
-	"github.com/redis/go-redis/v9"
+	"github.com/LoomingLunar/LunarLoom-WebSocketService/pkg/message"
 )
-
-// Redis client
-var Redis *redis.Client
 
 // Type channel
 type channel string
 
 // Channel names
-const USER_CHANNEL channel = "USER_MESSAGE"
-const ACK_CHANNEL channel = "ACK_MESSAGE"
-const SYSTEM_CHANNEL channel = "SYSTEM_MESSAGE"
+const SEND_USER_CHANNEL channel = "USER_MESSAGE"
+const SEND_ACK_CHANNEL channel = "ACK_MESSAGE"
+const SEND_SYSTEM_CHANNEL channel = "SYSTEM_MESSAGE"
+const RECEIVE_CHAT_CHANNEL channel = "CHAT_MESSAGE"
 
-// Connecting and start redis pub-sub
-func Start() {
-	// Getting Redis ports
-	var port = os.Getenv("REDIS_IP")
+// Storing all connections
+var connections = make(map[string]chan<- message.Msg)
 
-	// Making connection and storing redis
-	var rdb = redis.NewClient(&redis.Options{
-		Addr: port,
-	})
-	Redis = rdb
+// Listening to redis channels
+func ListenChannels() {
+	go ReadMessages(RECEIVE_CHAT_CHANNEL)
 }

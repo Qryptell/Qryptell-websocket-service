@@ -1,4 +1,4 @@
-package message 
+package message
 
 type MessageType string
 
@@ -13,4 +13,10 @@ const (
 type Msg struct {
 	Type    MessageType    `json:"type"`
 	Message map[string]any `json:"message"`
+}
+
+// Message for client
+type ClientMsg struct {
+	ConnectionId string `json:"connectionId"`
+	Msg          Msg    `json:"message"`
 }

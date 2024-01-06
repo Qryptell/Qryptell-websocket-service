@@ -11,6 +11,7 @@ import (
 func (c *Client) ListenMsg() {
 	// Disconnecting client
 	defer func() {
+		c.Conn.Close()
 		c.UnRegister <- true
 	}()
 
@@ -37,6 +38,7 @@ func (c *Client) ListenMsg() {
 // Sending message to client
 func (c *Client) WriteMsg() {
 	// Getting msg from channel and sending to client response
+	redis.Subscribe(c.ConnectionId, c.MessageChan)
 	for {
 		select {
 		case msg := <-c.MessageChan:
@@ -45,6 +47,8 @@ func (c *Client) WriteMsg() {
 				return
 			}
 		case _ = <-c.UnRegister:
+			redis.UnSubscribe(c.ConnectionId)
+			c.Conn.Close()
 			return
 		}
 	}
@@ -55,15 +59,15 @@ func SendMsg(msg message.Msg) {
 	// Chosing message channel accoding to message type
 	switch msg.Type {
 	case message.USER_MSG:
-		redis.PublishMsg(msg, redis.USER_CHANNEL)
+		redis.PublishMsg(msg, redis.SEND_USER_CHANNEL)
 		break
 
 	case message.ACK_MSG:
-		redis.PublishMsg(msg, redis.ACK_CHANNEL)
+		redis.PublishMsg(msg, redis.SEND_ACK_CHANNEL)
 		break
 
 	case message.SYSTEM_MSG:
-		redis.PublishMsg(msg, redis.SYSTEM_CHANNEL)
+		redis.PublishMsg(msg, redis.SEND_SYSTEM_CHANNEL)
 		break
 
 	}

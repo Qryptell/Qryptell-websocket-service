@@ -6,9 +6,6 @@ import (
 	"github.com/google/uuid"
 )
 
-// List of all the Clients
-var Clients map[string]*Client = map[string]*Client{}
-
 // Client structure
 type Client struct {
 	Conn         *websocket.Conn
@@ -28,13 +25,5 @@ func NewClient(userName string, conn *websocket.Conn) *Client {
 		UnRegister:   make(chan bool),
 	}
 
-	Clients[client.ConnectionId] = client
-
 	return client
-}
-
-// Closing connection and removing user from client list
-func (c *Client) RemoveClient() {
-	c.Conn.Close()
-	delete(Clients, c.ConnectionId)
 }
