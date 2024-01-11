@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/LoomingLunar/LunarLoom-WebSocketService/pkg/ws"
+	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/ws"
 	"github.com/gofiber/contrib/websocket"
 	"github.com/golang-jwt/jwt/v5"
 )

@@ -1,7 +1,7 @@
 package redis
 
 import (
-	"github.com/LoomingLunar/LunarLoom-WebSocketService/pkg/message"
+	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/message"
 )
 
 // Type channel

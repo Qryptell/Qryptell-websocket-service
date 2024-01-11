@@ -34,12 +34,12 @@ Contributions are welcome! To contribute to this project:
 1. Fork the project
 2. Clone the fork
     ```git
-    git clone https://github.com/<your-username>/LunarLoom-WebSocketService
+    git clone https://github.com/<your-username>/LunarLoom-websocket-service
     ```
 
 3. Add Upstream
     ```git
-    git remote add upstream https://github.com/LoomingLunar/LunarLoom-WebSocketService
+    git remote add upstream https://github.com/LoomingLunar/LunarLoom-websocket-service
     ```
 
 4. Craete a new branch

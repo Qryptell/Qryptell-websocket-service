@@ -1,4 +1,4 @@
-module github.com/LoomingLunar/LunarLoom-WebSocketService
+module github.com/LoomingLunar/LunarLoom-websocket-service
 
 go 1.21.5
 

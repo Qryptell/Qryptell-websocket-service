@@ -3,9 +3,9 @@ package redis
 import (
 	"context"
 
-	"github.com/LoomingLunar/LunarLoom-WebSocketService/database"
-	"github.com/LoomingLunar/LunarLoom-WebSocketService/pkg/message"
-	"github.com/LoomingLunar/LunarLoom-WebSocketService/util"
+	"github.com/LoomingLunar/LunarLoom-websocket-service/database"
+	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/message"
+	"github.com/LoomingLunar/LunarLoom-websocket-service/util"
 )
 
 // Publishing user message to channel

@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/LoomingLunar/LunarLoom-WebSocketService/database"
-	"github.com/LoomingLunar/LunarLoom-WebSocketService/pkg/message"
+	"github.com/LoomingLunar/LunarLoom-websocket-service/database"
+	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/message"
 )
 
 // Read messages from channel and send to clients
@@ -16,17 +16,12 @@ func ReadMessages(ch channel) {
 
 	// Receiving messages
 	var c = pubsub.Channel()
-	for msg := range c {
-		var m message.ClientMsg
-		json.Unmarshal([]byte(msg.Payload), &m)
-		go SendMsg(m)
-	}
-}
-
-// Sending message to correct client
-func SendMsg(msg message.ClientMsg) {
-	if conn, exist := connections[msg.ConnectionId]; exist {
-		conn <- msg.Msg
+	for m := range c {
+		var msg message.ClientMsg
+		json.Unmarshal([]byte(m.Payload), &msg)
+		if conn, exist := connections[msg.ConnectionId]; exist {
+			conn <- msg.Msg
+		}
 	}
 }
 
