@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/LoomingLunar/LunarLoom-websocket-service/database"
+	"github.com/LoomingLunar/LunarLoom-websocket-service/connection"
 	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/redis"
 	"github.com/LoomingLunar/LunarLoom-websocket-service/server"
 	"github.com/joho/godotenv"
@@ -20,7 +20,7 @@ func main() {
 	}
 
 	// Connecting and creating redis client
-	database.RedisSetUp()
+	connection.RedisSetUp()
 	redis.ListenChannels()
 
 	server.Run(port)

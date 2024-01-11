@@ -3,7 +3,7 @@ package redis
 import (
 	"context"
 
-	"github.com/LoomingLunar/LunarLoom-websocket-service/database"
+	"github.com/LoomingLunar/LunarLoom-websocket-service/connection"
 	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/message"
 	"github.com/LoomingLunar/LunarLoom-websocket-service/util"
 )
@@ -16,6 +16,6 @@ func PublishMsg(msg message.Msg, channel channel) error {
 		return err
 	}
 	// Publishing message
-	err = database.Redis.Publish(context.TODO(), string(channel), data).Err()
+	err = connection.Redis.Publish(context.TODO(), string(channel), data).Err()
 	return err
 }

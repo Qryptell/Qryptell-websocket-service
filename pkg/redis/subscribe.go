@@ -4,14 +4,14 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/LoomingLunar/LunarLoom-websocket-service/database"
+	"github.com/LoomingLunar/LunarLoom-websocket-service/connection"
 	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/message"
 )
 
 // Read messages from channel and send to clients
 func ReadMessages(ch channel) {
 	// Subscribing channel
-	var pubsub = database.Redis.Subscribe(context.TODO(), string(ch))
+	var pubsub = connection.Redis.Subscribe(context.TODO(), string(ch))
 	defer pubsub.Close()
 
 	// Receiving messages
