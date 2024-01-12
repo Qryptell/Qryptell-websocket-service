@@ -75,7 +75,7 @@ Contributions are welcome! To contribute to this project:
 
 ## LICENSE
 
-LunarLoom - End To End Encrypted Chat App
+LunarLoom Web Socket Service - WebSocket Service for LunarLoom End To End Encrypted Chat App.
 
 Copyright (C) 2023  LunarLoom
 

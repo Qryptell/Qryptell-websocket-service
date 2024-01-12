@@ -18,4 +18,6 @@ WORKDIR /build
 
 COPY --from=build  /build/bin /build
 
+ENV AUTH_SECRET=secret
+
 CMD ["/build/websocket"]
