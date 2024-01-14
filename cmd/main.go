@@ -1,3 +1,9 @@
+/*
+				Copyright © 2023 LunarLoom 
+LunarLoom Web Socket Service - WebSocket Service for LunarLoom End To End Encrypted Chat App
+
+*/
+
 package main
 
 import (

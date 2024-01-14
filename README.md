@@ -77,7 +77,7 @@ Contributions are welcome! To contribute to this project:
 
 LunarLoom Web Socket Service - WebSocket Service for LunarLoom End To End Encrypted Chat App.
 
-Copyright (C) 2023  LunarLoom
+Copyright © 2023  LunarLoom
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
