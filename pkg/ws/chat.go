@@ -5,6 +5,7 @@ import (
 
 	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/message"
 	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/redis"
+	"github.com/google/uuid"
 )
 
 // Listen to messages form client
@@ -26,19 +27,34 @@ func (c *Client) ListenMsg() {
 
 		// Adding from,time details to the message if message is ack or user msg
 		if msg.Type == message.USER_MSG || msg.Type == message.ACK_MSG {
-			msg.Message["from"] = c.Username
-			msg.Message["time"] = time.Now().Format(time.RFC3339)
+			msg.From = c.Username
+			msg.Time = time.Now().Format(time.RFC3339)
+
+			// Sending ack message if user-message with message id
+			if msg.Type == message.USER_MSG {
+				var id = uuid.NewString()
+				var m = message.Msg{
+					Id:      msg.Id,
+					From:    msg.From,
+					Time:    msg.Time,
+					Type:    message.ACK_MSG,
+					Content: message.MESSAGE_RECEIVED,
+					Message: id,
+				}
+				c.MessageChan <- m
+				msg.Id = id
+			}
 		}
 
 		// Publishing messgae to redis
-		go SendMsg(msg)
+		go SendMsg(message.ServerMsg{ConnectionId: c.ConnectionId, Msg: msg})
 	}
 }
 
 // Sending message to client
 func (c *Client) WriteMsg() {
 	// Getting msg from channel and sending to client response
-	redis.Subscribe(c.ConnectionId, c.MessageChan)
+	redis.Subscribe(c.Username, c.ConnectionId, c.MessageChan)
 	for {
 		select {
 		case msg := <-c.MessageChan:
@@ -47,7 +63,7 @@ func (c *Client) WriteMsg() {
 				return
 			}
 		case _ = <-c.UnRegister:
-			redis.UnSubscribe(c.ConnectionId)
+			redis.UnSubscribe(c.Username, c.ConnectionId)
 			c.Conn.Close()
 			return
 		}
@@ -55,11 +71,11 @@ func (c *Client) WriteMsg() {
 }
 
 // Sending message to redis channel
-func SendMsg(msg message.Msg) {
+func SendMsg(msg message.ServerMsg) {
 	// Chosing message channel accoding to message type
-	switch msg.Type {
+	switch msg.Msg.Type {
 	case message.USER_MSG:
-		redis.PublishMsg(msg, redis.SEND_USER_CHANNEL)
+		redis.PublishMsg(msg, redis.USER_MSG)
 		break
 
 	case message.ACK_MSG:
