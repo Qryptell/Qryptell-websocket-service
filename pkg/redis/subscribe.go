@@ -26,7 +26,7 @@ func ReadMessages(ch channel) {
 // Subscribing connection for messages
 func Subscribe(username string, connectionId string, ch chan message.Msg) {
 	if connectionList, exists := connections[username]; exists {
-		connectionList = append(connectionList, connection{ConnectionId: connectionId, Chan: ch})
+		connections[username] = append(connectionList, connection{ConnectionId: connectionId, Chan: ch})
 	} else {
 		var c = connection{ConnectionId: connectionId, Chan: ch}
 		var connectionList = []connection{c}
@@ -41,6 +41,7 @@ func UnSubscribe(connectionId string, username string) {
 		if v.ConnectionId == connectionId {
 			connectionList[i] = connectionList[len(connectionList)-1]
 			connectionList = connectionList[:len(connectionList)-1]
+			connections[username] = connectionList
 		}
 	}
 	if len(connectionList) == 0 {
