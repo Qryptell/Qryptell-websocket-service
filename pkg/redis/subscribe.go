@@ -35,7 +35,7 @@ func Subscribe(username string, connectionId string, ch chan message.Msg) {
 }
 
 // Removing connection from connections map
-func UnSubscribe(connectionId string, username string) {
+func UnSubscribe(username string, connectionId string) {
 	var connectionList = connections[username]
 	for i, v := range connectionList {
 		if v.ConnectionId == connectionId {
@@ -44,6 +44,7 @@ func UnSubscribe(connectionId string, username string) {
 			connections[username] = connectionList
 		}
 	}
+
 	if len(connectionList) == 0 {
 		delete(connections, username)
 	}
@@ -51,10 +52,12 @@ func UnSubscribe(connectionId string, username string) {
 
 // Send message to all connections
 func sendMessage(msg message.ServerMsg) {
+	// sending messages to receivers
 	for _, conn := range connections[msg.Msg.To] {
 		conn.Chan <- msg.Msg
 	}
 
+	// sending message to other connection of sender
 	for _, conn := range connections[msg.Msg.From] {
 		if conn.ConnectionId != msg.ConnectionId {
 			conn.Chan <- msg.Msg

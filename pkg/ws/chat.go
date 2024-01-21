@@ -30,7 +30,7 @@ func (c *Client) ListenMsg() {
 			msg.From = c.Username
 			msg.Time = time.Now().Format(time.RFC3339)
 
-			// Sending ack message if message is user msg
+			// Sending ack message if user-message with message id
 			if msg.Type == message.USER_MSG {
 				var id = uuid.NewString()
 				var m = message.Msg{
@@ -41,7 +41,6 @@ func (c *Client) ListenMsg() {
 					Content: message.MESSAGE_RECEIVED,
 					Message: id,
 				}
-
 				c.MessageChan <- m
 				msg.Id = id
 			}
@@ -64,7 +63,7 @@ func (c *Client) WriteMsg() {
 				return
 			}
 		case _ = <-c.UnRegister:
-			redis.UnSubscribe(c.ConnectionId, c.Username)
+			redis.UnSubscribe(c.Username, c.ConnectionId)
 			c.Conn.Close()
 			return
 		}
