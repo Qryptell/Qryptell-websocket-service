@@ -1,0 +1,25 @@
+version: '3'
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - lunarloom-network
+
+  websocket-service:
+    image: vaishakhgk/lunarloom-websocket:latest
+    environment:
+      - PORT=9000
+      - REDIS_IP=redis:6379
+      - AUTH_SECRET=secret
+    ports:
+      - "9000:9000"
+    depends_on:
+      - redis
+    networks:
+      - lunarloom-network
+
+networks:
+  lunarloom-network:
+    driver: bridge
