@@ -1,4 +1,4 @@
-package connection
+package redis
 
 import (
 	"os"
@@ -10,7 +10,7 @@ import (
 var Redis *redis.Client
 
 // Connecting and start redis pub-sub
-func RedisSetUp() {
+func SetUp() {
 	// Getting Redis ports
 	var port = os.Getenv("REDIS_IP")
 
@@ -19,4 +19,7 @@ func RedisSetUp() {
 		Addr: port,
 	})
 	Redis = rdb
+
+	// listening to redis messages
+	ListenChannels()
 }
