@@ -11,7 +11,7 @@ func WebSocketHandler(c *websocket.Conn) {
 	// Getting sessionId,username from jwt token
 	var user = c.Locals("user").(*jwt.Token)
 	var claims = user.Claims.(jwt.MapClaims)
-	var username = claims["userName"].(string)
+	var username = claims["username"].(string)
 
 	// Creating new client and reading and writing messages
 	var cli = ws.NewClient(username, c)
