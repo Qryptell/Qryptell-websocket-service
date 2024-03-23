@@ -1,8 +1,6 @@
 package ws
 
 import (
-	"time"
-
 	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/message"
 	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/redis"
 	"github.com/google/uuid"
@@ -25,25 +23,19 @@ func (c *Client) ListenMsg() {
 			return
 		}
 
-		// Adding from,time details to the message if message is ack or user msg
-		if msg.Type == message.USER_MSG || msg.Type == message.ACK_MSG {
-			msg.From = c.Username
-			msg.Time = time.Now().Format(time.RFC3339)
-
-			// Sending ack message if user-message with message id
-			if msg.Type == message.USER_MSG {
-				var id = uuid.NewString()
-				var m = message.Msg{
-					Id:      msg.Id,
-					From:    msg.From,
-					Time:    msg.Time,
-					Type:    message.ACK_MSG,
-					Content: message.MESSAGE_RECEIVED,
-					Message: id,
-				}
-				c.MessageChan <- m
-				msg.Id = id
+		// Sending ack message if user-message with message id
+		if msg.Type == message.USER_MSG {
+			var id = uuid.NewString()
+			var m = message.Msg{
+				Id:      msg.Id,
+				From:    msg.From,
+				Time:    msg.Time,
+				Type:    message.ACK_MSG,
+				Content: message.MESSAGE_RECEIVED,
+				Message: id,
 			}
+			c.MessageChan <- m
+			msg.Id = id
 		}
 
 		// Publishing messgae to redis
