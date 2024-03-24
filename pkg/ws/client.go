@@ -10,17 +10,17 @@ import (
 type Client struct {
 	Conn         *websocket.Conn
 	ConnectionId string
-	Username     string
+	UserId       string
 	MessageChan  chan (message.Msg)
 	UnRegister   chan (bool)
 }
 
 // Creating new client
-func NewClient(userName string, conn *websocket.Conn) *Client {
+func NewClient(userId string, conn *websocket.Conn) *Client {
 	var client = &Client{
 		Conn:         conn,
 		ConnectionId: uuid.NewString(),
-		Username:     userName,
+		UserId:       userId,
 		MessageChan:  make(chan message.Msg),
 		UnRegister:   make(chan bool),
 	}

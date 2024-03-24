@@ -46,7 +46,7 @@ func (c *Client) ListenMsg() {
 // Sending message to client
 func (c *Client) WriteMsg() {
 	// Getting msg from channel and sending to client response
-	redis.Subscribe(c.Username, c.ConnectionId, c.MessageChan)
+	redis.Subscribe(c.UserId, c.ConnectionId, c.MessageChan)
 	for {
 		select {
 		case msg := <-c.MessageChan:
@@ -55,7 +55,7 @@ func (c *Client) WriteMsg() {
 				return
 			}
 		case _ = <-c.UnRegister:
-			redis.UnSubscribe(c.Username, c.ConnectionId)
+			redis.UnSubscribe(c.UserId, c.ConnectionId)
 			c.Conn.Close()
 			return
 		}

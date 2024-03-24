@@ -23,29 +23,29 @@ func ReadMessages(ch channel) {
 }
 
 // Subscribing connection for messages
-func Subscribe(username string, connectionId string, ch chan message.Msg) {
-	if connectionList, exists := connections[username]; exists {
-		connections[username] = append(connectionList, connection{ConnectionId: connectionId, Chan: ch})
+func Subscribe(userId string, connectionId string, ch chan message.Msg) {
+	if connectionList, exists := connections[userId]; exists {
+		connections[userId] = append(connectionList, connection{ConnectionId: connectionId, Chan: ch})
 	} else {
 		var c = connection{ConnectionId: connectionId, Chan: ch}
 		var connectionList = []connection{c}
-		connections[username] = connectionList
+		connections[userId] = connectionList
 	}
 }
 
 // Removing connection from connections map
-func UnSubscribe(username string, connectionId string) {
-	var connectionList = connections[username]
+func UnSubscribe(userId string, connectionId string) {
+	var connectionList = connections[userId]
 	for i, v := range connectionList {
 		if v.ConnectionId == connectionId {
 			connectionList[i] = connectionList[len(connectionList)-1]
 			connectionList = connectionList[:len(connectionList)-1]
-			connections[username] = connectionList
+			connections[userId] = connectionList
 		}
 	}
 
 	if len(connectionList) == 0 {
-		delete(connections, username)
+		delete(connections, userId)
 	}
 }
 
