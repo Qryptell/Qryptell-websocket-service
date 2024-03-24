@@ -23,6 +23,8 @@ func (c *Client) ListenMsg() {
 			return
 		}
 
+		msg.From = c.UserId
+
 		// Sending ack message if user-message with message id
 		if msg.Type == message.USER_MSG {
 			var id = uuid.NewString()
