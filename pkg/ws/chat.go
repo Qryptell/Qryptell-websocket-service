@@ -1,8 +1,8 @@
 package ws
 
 import (
-	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/message"
-	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/redis"
+	"github.com/Qryptell/Qryptell-websocket-service/pkg/message"
+	"github.com/Qryptell/Qryptell-websocket-service/pkg/redis"
 	"github.com/google/uuid"
 )
 

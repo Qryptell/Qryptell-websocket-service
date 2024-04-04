@@ -1,6 +1,6 @@
 /*
-				Copyright © 2023 LunarLoom 
-LunarLoom Web Socket Service - WebSocket Service for LunarLoom End To End Encrypted Chat App
+				Copyright © 2023 Qryptell
+Qryptell Web Socket Service - WebSocket Service for Qryptell End To End Encrypted Chat App
 
 */
 
@@ -9,8 +9,8 @@ package main
 import (
 	"os"
 
-	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/redis"
-	"github.com/LoomingLunar/LunarLoom-websocket-service/server"
+	"github.com/Qryptell/Qryptell-websocket-service/pkg/redis"
+	"github.com/Qryptell/Qryptell-websocket-service/server"
 	"github.com/joho/godotenv"
 )
 

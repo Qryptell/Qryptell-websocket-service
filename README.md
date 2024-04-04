@@ -1,6 +1,6 @@
-# LunarLoom Web Socket Service
+# Qryptell Web Socket Service
 
-The LunarLoom WebSocket Service provides real-time messaging capabilities to enable users to communicate instantly. It allows for the exchange of messages in a secure and efficient manner, supporting various features essential for a modern messaging platform.
+The Qryptell WebSocket Service provides real-time messaging capabilities to enable users to communicate instantly. It allows for the exchange of messages in a secure and efficient manner, supporting various features essential for a modern messaging platform.
 
 ## Features 
 
@@ -34,12 +34,12 @@ Contributions are welcome! To contribute to this project:
 1. Fork the project
 2. Clone the fork
     ```git
-    git clone https://github.com/<your-username>/LunarLoom-websocket-service
+    git clone https://github.com/<your-username>/Qryptell-websocket-service
     ```
 
 3. Add Upstream
     ```git
-    git remote add upstream https://github.com/LoomingLunar/LunarLoom-websocket-service
+    git remote add upstream https://github.com/Qryptell/Qryptell-websocket-service
     ```
 
 4. Craete a new branch
@@ -75,9 +75,9 @@ Contributions are welcome! To contribute to this project:
 
 ## LICENSE
 
-LunarLoom Web Socket Service - WebSocket Service for LunarLoom End To End Encrypted Chat App.
+Qryptell Web Socket Service - WebSocket Service for Qryptell End To End Encrypted Chat App.
 
-Copyright © 2023  LunarLoom
+Copyright © 2023  Qryptell
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

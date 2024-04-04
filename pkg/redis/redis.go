@@ -1,7 +1,7 @@
 package redis
 
 import (
-	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/message"
+	"github.com/Qryptell/Qryptell-websocket-service/pkg/message"
 )
 
 // Type channel

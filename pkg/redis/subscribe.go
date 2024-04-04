@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/message"
+	"github.com/Qryptell/Qryptell-websocket-service/pkg/message"
 )
 
 // Read messages from channel and send to clients

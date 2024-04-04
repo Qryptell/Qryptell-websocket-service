@@ -1,7 +1,7 @@
 package ws
 
 import (
-	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/message"
+	"github.com/Qryptell/Qryptell-websocket-service/pkg/message"
 	"github.com/gofiber/contrib/websocket"
 	"github.com/google/uuid"
 )

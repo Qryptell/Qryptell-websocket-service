@@ -3,8 +3,8 @@ package redis
 import (
 	"context"
 
-	"github.com/LoomingLunar/LunarLoom-websocket-service/pkg/message"
-	"github.com/LoomingLunar/LunarLoom-websocket-service/util"
+	"github.com/Qryptell/Qryptell-websocket-service/pkg/message"
+	"github.com/Qryptell/Qryptell-websocket-service/util"
 )
 
 // Publishing user message to channel

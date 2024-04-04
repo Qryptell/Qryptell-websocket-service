@@ -1,4 +1,4 @@
-module github.com/LoomingLunar/LunarLoom-websocket-service
+module github.com/Qryptell/Qryptell-websocket-service
 
 go 1.21.5
 
